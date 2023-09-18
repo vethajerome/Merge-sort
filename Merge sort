@@ -1,0 +1,47 @@
+#include<iostream>
+using namespace std;
+void mergearray(int arr[],int start,int middle,int end) //To merge the array
+{
+    int p=start,q=middle+1;  //To compare the individual blocks
+    int A[end-start+1],k=0;  //To update in a new array
+    for(int i=start;i<=end;i++)
+    {
+        if(p>middle)                 //if extra elements in secondblock
+        A[k++]=arr[q++];
+        else if(q>end)                 //if extra elements in firstblock
+        A[k++]=arr[p++];
+        else if(arr[p]<arr[q])         //least element pushed in to the new array
+        A[k++]=arr[p++];
+        else
+        A[k++]=arr[q++];
+    }
+    for(int j=0;j<k;j++)
+    arr[start++]=A[j];    //updation in the original array
+}
+void splitarray(int arr[],int start,int end)  //to split thew array
+{  
+    if(start<end)               //automatically splits the array to a single block ,no equal to becuse it cannot be splitted beyond single element 
+    {
+        int middle=(start+end)/2;
+        splitarray(arr,start,middle);   // first half is splitted 
+        splitarray(arr,middle+1,end);    //second half is splitted 
+        mergearray(arr,start,middle,end); //the array blocks are compared and merged
+    }
+}
+
+
+
+
+
+
+int main()
+{
+    int n;
+    cin>>n;
+    int arr[n];
+    for(int i=0;i<n;i++)
+    cin>>arr[i];
+    splitarray(arr,0,n-1);    // to split the array
+    for(int i=0;i<n;i++)
+    cout<<arr[i]<<" ";
+}
